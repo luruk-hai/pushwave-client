@@ -1,0 +1,55 @@
+buildscript {
+    ext.safeExtGet = { prop, fallback ->
+        return rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
+    }
+    ext.kotlin_version = safeExtGet("kotlinVersion", "1.9.22")
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    }
+}
+
+apply plugin: "com.android.library"
+apply plugin: "org.jetbrains.kotlin.android"
+
+def getExtOrDefault(name, defaultValue) {
+    return rootProject.ext.has(name) ? rootProject.ext.get(name) : defaultValue
+}
+
+android {
+    namespace "com.pushwaveclient"
+    compileSdkVersion getExtOrDefault("compileSdkVersion", 34)
+
+    defaultConfig {
+        minSdkVersion getExtOrDefault("minSdkVersion", 23)
+        targetSdkVersion getExtOrDefault("targetSdkVersion", 34)
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+repositories {
+    google()
+    mavenCentral()
+}
+
+dependencies {
+    implementation "com.facebook.react:react-native:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "com.google.android.play:integrity:1.6.0"
+}
