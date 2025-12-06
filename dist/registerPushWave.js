@@ -32,7 +32,8 @@ async function registerPushWave({ apiKey }) {
         apiKey: apiKey,
         expoToken: expoToken,
         platform: react_native_1.Platform.OS,
-        appAttestation: appAttestation
+        appAttestation: appAttestation,
+        environment: __DEV__ ? "development" : "production"
     };
     try {
         const res = await (0, fetch_1.fetchApi)(path, options);

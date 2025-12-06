@@ -4,6 +4,7 @@ exports.fetchApi = fetchApi;
 const BASE_URL = "https://pushwave.luruk-hai.fr";
 async function fetchApi(path, data) {
     const url = BASE_URL + path;
+    console.log(data);
     const res = await fetch(url, {
         method: "POST",
         headers: {

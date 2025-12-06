@@ -7,6 +7,8 @@ export async function fetchApi<TResponse>(
 
   const url = BASE_URL + path;
 
+  console.log(data);
+
   const res = await fetch(url, {
     method: "POST",
     headers: {

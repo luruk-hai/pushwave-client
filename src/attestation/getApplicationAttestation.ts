@@ -1,39 +1,9 @@
 import { Buffer } from "buffer";
 import { Platform } from "react-native";
 import { getAndroidIntegrityToken, getDeviceCheckToken } from "./native";
+import { ApplicationAttestation, AndroidAttestationPayload, DisabledAttestation, IosAttestationPayload } from "./index";
 
-export interface AndroidAttestationPayload {
-    status: "ok";
-    platform: "android";
-    nonce: string;
-    timestamp: number;
-    integrityToken: string;
-}
-
-export interface IosAttestationPayload {
-    status: "ok";
-    platform: "ios";
-    nonce: string;
-    timestamp: number;
-    deviceCheckToken: string;
-}
-
-export interface DisabledAttestation {
-    status: "disabled";
-    reason: string;
-}
-
-export interface SkippedAttestation {
-    status: "skipped";
-}
-
-export type ApplicationAttestation =
-    | AndroidAttestationPayload
-    | IosAttestationPayload
-    | DisabledAttestation
-    | SkippedAttestation;
-
-export default async function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation> {
+export async function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation> {
     if (!requiresAttestation(apiKey)) return { status: "skipped" };
 
     const { nonce, timestamp } = createNonce();

@@ -1,27 +1,12 @@
-import { fetchApi } from "./utils/fetch";
-import { getExpoToken } from "./utils/expoToken";
-import getApplicationAttestation from "./attestation/getApplicationAttestation";
+import { fetchApi } from "../utils/fetch";
+import { getExpoToken } from "../utils/expoToken";
 import { Platform } from "react-native";
-import { PWLogger } from "./utils/pwLogger";
-import { isSecretKey } from "./utils/apiKeyCheck";
+import { PWLogger } from "../utils/pwLogger";
+import { isSecretKey } from "../utils/apiKeyCheck";
+import { RegisterPushWaveClient, RegisterPushWaveDTO, RegisterPushWaveResponse } from "./registerPushWave.dto";
+import { getApplicationAttestation } from "../attestation/index";
 
-export interface RegisterPushWaveClient {
-    apiKey: string;
-}
-
-export interface RegisterPushWaveResponse {
-    success: boolean;
-    message?: string;
-}
-
-export interface RegisterPushWaveOptions {
-    apiKey: string;
-    expoToken: string;
-    platform: string;
-    appAttestation?: any;
-}
-
-export default async function registerPushWave(
+export async function registerPushWave(
     { apiKey }: RegisterPushWaveClient
 ): Promise<RegisterPushWaveResponse> {
 
@@ -51,11 +36,12 @@ export default async function registerPushWave(
 
     const path = "/v1/expo-tokens"
 
-    const options: RegisterPushWaveOptions = {
+    const options: RegisterPushWaveDTO = {
         apiKey: apiKey,
         expoToken: expoToken,
         platform: Platform.OS,
-        appAttestation: appAttestation
+        appAttestation: appAttestation,
+        environment: __DEV__ ? "development" : "production"
     }
 
     try {
