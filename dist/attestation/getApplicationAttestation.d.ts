@@ -1,23 +1,2 @@
-export interface AndroidAttestationPayload {
-    status: "ok";
-    platform: "android";
-    nonce: string;
-    timestamp: number;
-    integrityToken: string;
-}
-export interface IosAttestationPayload {
-    status: "ok";
-    platform: "ios";
-    nonce: string;
-    timestamp: number;
-    deviceCheckToken: string;
-}
-export interface DisabledAttestation {
-    status: "disabled";
-    reason: string;
-}
-export interface SkippedAttestation {
-    status: "skipped";
-}
-export type ApplicationAttestation = AndroidAttestationPayload | IosAttestationPayload | DisabledAttestation | SkippedAttestation;
-export default function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation>;
+import { ApplicationAttestation } from "./index";
+export declare function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation>;

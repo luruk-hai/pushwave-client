@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = getApplicationAttestation;
+exports.getApplicationAttestation = getApplicationAttestation;
 const buffer_1 = require("buffer");
 const react_native_1 = require("react-native");
 const native_1 = require("./native");

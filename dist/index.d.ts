@@ -1,4 +1,4 @@
-import { RegisterPushWaveClient, RegisterPushWaveResponse } from "./registerPushWave";
+import { RegisterPushWaveClient, RegisterPushWaveResponse } from "./register";
 export interface PushWaveClientType {
     init(options: RegisterPushWaveClient): Promise<RegisterPushWaveResponse>;
 }
