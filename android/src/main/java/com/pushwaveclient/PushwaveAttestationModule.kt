@@ -16,11 +16,17 @@ class PushwaveAttestationModule(private val context: ReactApplicationContext) :
     override fun getName(): String = "PushwaveAttestation"
 
     @ReactMethod
-    fun getIntegrityToken(nonce: String, promise: Promise) {
+    fun getIntegrityToken(nonce: String, cloudProjectNumber: Double?, promise: Promise) {
         try {
+            if (cloudProjectNumber == null) {
+                promise.reject("PLAY_INTEGRITY_ERROR", "cloudProjectNumber is required")
+                return
+            }
+
             val manager: IntegrityManager = IntegrityManagerFactory.create(context)
             val request = IntegrityTokenRequest.builder()
                 .setNonce(nonce)
+                .setCloudProjectNumber(cloudProjectNumber.toLong())
                 .build()
 
             manager.requestIntegrityToken(request)

@@ -1,14 +1,16 @@
-import { fetchApi } from "../utils/fetch";
+import { fetchApiPost, fetchApiGet } from "../utils/fetch";
 import { getExpoToken } from "../utils/expoToken";
 import { Platform } from "react-native";
 import { PWLogger } from "../utils/pwLogger";
 import { isSecretKey } from "../utils/apiKeyCheck";
 import { RegisterPushWaveClient, RegisterPushWaveDTO, RegisterPushWaveResponse } from "./registerPushWave.dto";
 import { getApplicationAttestation } from "../attestation/index";
+import { platform } from "os";
 
 export async function registerPushWave(
     { apiKey }: RegisterPushWaveClient
 ): Promise<RegisterPushWaveResponse> {
+    const OS = Platform.OS;
 
     if (isSecretKey(apiKey)) {
         const warn = `\x1b[0m You are using your SECRET API key in a client environment. This key must NEVER be embedded in a mobile app.`;
@@ -34,18 +36,18 @@ export async function registerPushWave(
     if (appAttestation.status === "disabled")
         PWLogger.warn(`(${Platform.OS}) could not get attestation: ${appAttestation.reason}`);
 
-    const path = "/v1/expo-tokens"
+    const path = "expo-tokens"
 
     const options: RegisterPushWaveDTO = {
         apiKey: apiKey,
         expoToken: expoToken,
-        platform: Platform.OS,
+        platform: OS,
         appAttestation: appAttestation,
         environment: __DEV__ ? "development" : "production"
     }
 
     try {
-        const res: RegisterPushWaveResponse = await fetchApi(path, options)
+        const res: RegisterPushWaveResponse = await fetchApiPost(path, options)
 
         return {
             success: true,

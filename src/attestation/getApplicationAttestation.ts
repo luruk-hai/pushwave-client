@@ -4,8 +4,6 @@ import { getAndroidIntegrityToken, getDeviceCheckToken } from "./native";
 import { ApplicationAttestation, AndroidAttestationPayload, DisabledAttestation, IosAttestationPayload } from "./index";
 
 export async function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation> {
-    if (!requiresAttestation(apiKey)) return { status: "skipped" };
-
     const { nonce, timestamp } = createNonce();
 
     try {
@@ -17,10 +15,6 @@ export async function getApplicationAttestation(apiKey: string): Promise<Applica
     }
 
     return { status: "disabled", reason: "platform-unsupported" };
-}
-
-function requiresAttestation(apiKey: string) {
-    return apiKey.startsWith("pw_pub_");
 }
 
 function createNonce() {

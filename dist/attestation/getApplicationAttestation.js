@@ -5,8 +5,6 @@ const buffer_1 = require("buffer");
 const react_native_1 = require("react-native");
 const native_1 = require("./native");
 async function getApplicationAttestation(apiKey) {
-    if (!requiresAttestation(apiKey))
-        return { status: "skipped" };
     const { nonce, timestamp } = createNonce();
     try {
         if (react_native_1.Platform.OS === "android")
@@ -19,9 +17,6 @@ async function getApplicationAttestation(apiKey) {
         return { status: "disabled", reason };
     }
     return { status: "disabled", reason: "platform-unsupported" };
-}
-function requiresAttestation(apiKey) {
-    return apiKey.startsWith("pw_pub_");
 }
 function createNonce() {
     const timestamp = Date.now();

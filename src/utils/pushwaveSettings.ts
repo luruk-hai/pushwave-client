@@ -2,7 +2,10 @@ import { Platform } from "react-native";
 import { fetchApiGet } from "./fetch";
 import { PWLogger } from "./pwLogger";
 
-type PushwaveSettings = Record<string, unknown>;
+export type PushwaveSettings = {
+    cloudProjectNumber?: string | number;
+    [key: string]: unknown;
+};
 
 const pushwaveSettingsPromise: Promise<PushwaveSettings> = (async () => {
     try {
