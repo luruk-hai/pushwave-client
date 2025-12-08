@@ -7,7 +7,7 @@ PushWave is a lightweight Expo-first SDK to get push notifications running witho
 ## Why PushWave?
 
 - **No backend needed**: token storage, targeting logic, scheduling, and sending are all handled by PushWave’s cloud. Forget cron jobs and custom endpoints.
-- **Expo-first design**: auto-linking, config plugin, no manual Gradle/Pod edits. Works seamlessly with EAS, dev clients, and Expo Router.
+- **Expo-first design**: auto-linking, config plugin, no manual Gradle/Pod edits. Works seamlessly with EAS Build and Expo Dev Clients. Compatible with Expo Router.
 - **Native attestation (roadmap)**: Play Integrity on Android + DeviceCheck on iOS to reduce spoofed APKs, fake tokens, and leaked API keys.
 - **One-line setup**: `PushWaveClient.init({ apiKey })` retrieves the Expo token, performs attestation when required, and logs enhanced debug info under `__DEV__`.
 - **Dashboard-first workflow (roadmap)**: audiences, groups, segments, templates, one-off or recurring pushes without touching Firebase or APNs directly.
