@@ -1,3 +1,4 @@
+![PushWave flow](docs/assets/flow.png)
 # pushwave-client (alpha)
 
 PushWave is a lightweight Expo-first SDK to get push notifications running without building your own backend or wrestling with native setup. It fetches the Expo push token and prepares app attestation (Android Play Integrity / iOS DeviceCheck) so you can secure delivery. The SaaS dashboard (scheduling, targeting, templates, cron-like sends) is coming soon. **Consider this an early-stage project**.
@@ -94,6 +95,7 @@ export default function App() {
 
 ## Links
 
+- DOCS: https://docs.pushwave.dev/
 - NPM: https://www.npmjs.com/package/pushwave-client
 - GitHub: https://github.com/luruk-hai/pushwave-client#readme
 
