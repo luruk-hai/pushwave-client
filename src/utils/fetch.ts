@@ -1,4 +1,4 @@
-const BASE_URL = "https://pushwave.luruk-hai.fr/v1/";
+const BASE_URL = "https://api.pushwave.dev/v1/";
 
 export async function fetchApiPost<TResponse>(
   path: string,
