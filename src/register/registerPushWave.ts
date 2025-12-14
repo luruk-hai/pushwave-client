@@ -1,11 +1,10 @@
-import { fetchApiPost, fetchApiGet } from "../utils/fetch";
+import { fetchApiPost } from "../utils/fetch";
 import { getExpoToken } from "../utils/expoToken";
 import { Platform } from "react-native";
 import { PWLogger } from "../utils/pwLogger";
 import { isSecretKey } from "../utils/apiKeyCheck";
 import { RegisterPushWaveClient, RegisterPushWaveDTO, RegisterPushWaveResponse } from "./registerPushWave.dto";
 import { getApplicationAttestation } from "../attestation/index";
-import { platform } from "os";
 
 export async function registerPushWave(
     { apiKey }: RegisterPushWaveClient
