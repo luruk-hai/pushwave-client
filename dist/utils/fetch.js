@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchApiPost = fetchApiPost;
 exports.fetchApiGet = fetchApiGet;
-const BASE_URL = "https://pushwave.luruk-hai.fr/v1/";
+const BASE_URL = "https://api.pushwave.dev/v1/public/";
 async function fetchApiPost(path, data = {}) {
     const url = BASE_URL + path;
     const res = await fetch(url, {
