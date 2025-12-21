@@ -1,7 +1,7 @@
 ![PushWave flow](docs/assets/flow.png)
 # pushwave-client (alpha)
 
-PushWave is a lightweight Expo-first SDK to get push notifications running without building your own backend or wrestling with native setup. It fetches the Expo push token and prepares app attestation (Android Play Integrity / iOS DeviceCheck) so you can secure delivery. The SaaS dashboard (scheduling, targeting, templates, cron-like sends) is coming soon. **Consider this an early-stage project**.
+PushWave is a lightweight Expo-first SDK to get push notifications running without building your own backend or wrestling with native setup. It fetches the Expo push token and prepares app attestation (Android Play Integrity / iOS DeviceCheck) so you can secure delivery. The SaaS dashboard is now live at https://pushwave.dev/ in to create audiences, templates, and scheduled sends. **Consider this an early-stage project**.
 
 ---
 
@@ -9,9 +9,9 @@ PushWave is a lightweight Expo-first SDK to get push notifications running witho
 
 - **No backend needed**: token storage, targeting logic, scheduling, and sending are all handled by PushWave’s cloud. Forget cron jobs and custom endpoints.
 - **Expo-first design**: auto-linking, config plugin, no manual Gradle/Pod edits. Works seamlessly with EAS Build and Expo Dev Clients. Compatible with Expo Router.
-- **Native attestation (roadmap)**: Play Integrity on Android + DeviceCheck on iOS to reduce spoofed APKs, fake tokens, and leaked API keys.
+- **Native attestation**: Play Integrity on Android + DeviceCheck on iOS to reduce spoofed APKs, fake tokens, and leaked API keys. Server-side validation is live.
 - **One-line setup**: `PushWaveClient.init({ apiKey })` retrieves the Expo token, performs attestation when required, and logs enhanced debug info under `__DEV__`.
-- **Dashboard-first workflow (roadmap)**: audiences, groups, segments, templates, one-off or recurring pushes without touching Firebase or APNs directly.
+- **Dashboard-first workflow**: audiences, groups, segments, templates, one-off or recurring pushes without touching Firebase or APNs directly (available at https://pushwave.dev/).
 - **Minimal external config**: for Android you still upload your FCM credentials to Expo (required by the platform), but PushWave handles the rest.
 
 ---
@@ -68,6 +68,13 @@ export default function App() {
 
 ---
 
+## Dashboard
+
+- The PushWave dashboard is live: go to https://pushwave.dev/ and log in to manage audiences, templates, one-off sends, and scheduled campaigns.
+- The SDK handles token collection and attaches attestation data so your dashboard campaigns can target real devices.
+
+---
+
 ## Notifications (expo-notifications)
 
 - The SDK retrieves the user’s Expo push token. If the user denies notification permission, no push will be delivered and the token may not be available depending on platform/permission.
@@ -77,12 +84,12 @@ export default function App() {
 
 ---
 
-## Attestation (current status)
+## Attestation
 
-- Backend validation is not live yet; it will arrive with the PushWave SaaS.
-- Android (Play Integrity): will require a build distributed via the Play Store (internal/closed track) with Play App Signing + Play Integrity API enabled. No support for Expo Go / sideload.
-- iOS (DeviceCheck): will require a real build (dev client or TestFlight), not Expo Go.
-- For now, consider attestation non-blocking (the SDK may return a `disabled` flag until the SaaS is active).
+- Backend validation is live: integrity tokens are checked server-side when attestation is enabled for your project.
+- Android (Play Integrity): requires a build distributed via the Play Store (internal/closed track) with Play App Signing + Play Integrity API enabled. No support for Expo Go / sideload.
+- iOS (DeviceCheck): requires a real build (dev client or TestFlight), not Expo Go.
+- Attestation can be toggled per project in the dashboard; if off, the SDK may return a `disabled` flag.
 
 ---
 
@@ -95,15 +102,11 @@ export default function App() {
 
 ## Links
 
+- DASHBOARD https://pushwave.dev/
 - DOCS: https://docs.pushwave.dev/
 - NPM: https://www.npmjs.com/package/pushwave-client
 - GitHub: https://github.com/luruk-hai/pushwave-client#readme
 
 ---
 
-## Roadmap (with SaaS)
-
-- Server-side validation of Play Integrity / DeviceCheck tokens.
-- Full attestation docs and Play Store setup (enable Integrity API, internal track).
-- Dashboard for targeting, templates, scheduling (one-off and cron-like).
-- Complete registration flow with the PushWave backend.
+*Roadmap is no longer tracked in this README; check the dashboard or docs for current feature status.*
