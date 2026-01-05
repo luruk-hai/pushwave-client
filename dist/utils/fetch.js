@@ -11,7 +11,6 @@ async function fetchApi(method, path, { params, data } = {}) {
             return acc;
         }, {})).toString()
         : "";
-    console.log("Go fetch !");
     const url = BASE_URL + path + (search ? `?${search}` : "");
     const headers = {};
     const body = data !== undefined && method !== "GET" ? JSON.stringify(data) : undefined;

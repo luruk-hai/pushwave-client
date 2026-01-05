@@ -24,6 +24,16 @@ npm install pushwave-client
 npx expo install expo-notifications
 ```
 
+Optional (recommended): install [expo-secure-store](https://docs.expo.dev/versions/latest/sdk/securestore/) to persist the SDK’s installationId across app restarts:
+```bash
+npx expo install expo-secure-store
+```
+
+Optional (for richer device metadata: version/build, model, locale/timezone): install:
+```bash
+npx expo install expo-application expo-device expo-localization
+```
+
 2) Add the config plugin to your app.json / app.config.*:
 ```json
 {

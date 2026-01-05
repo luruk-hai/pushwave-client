@@ -9,7 +9,6 @@ const pushwaveSettingsPromise = (async () => {
         return await (0, fetch_1.fetchApi)("GET", "pushwave-config", { params: { platform: react_native_1.Platform.OS } });
     }
     catch (e) {
-        // log si besoin
         pwLogger_1.PWLogger.warn(`Unable to load PushWave configuration: ${e}`);
         return {};
     }

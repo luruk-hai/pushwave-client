@@ -11,4 +11,12 @@ export interface RegisterPushWaveDTO {
     platform: string;
     appAttestation?: any;
     environment: "development" | "production";
+    appVersion: string;
+    buildNumber: string;
+    installationId: string;
+    osVersion: string;
+    deviceModel: string;
+    locale: string;
+    timezone: string;
+    countryCode: string;
 }

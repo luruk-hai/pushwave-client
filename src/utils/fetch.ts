@@ -19,8 +19,6 @@ export async function fetchApi<TResponse>(
       ).toString()
     : "";
 
-    console.log("Go fetch !");
-
   const url = BASE_URL + path + (search ? `?${search}` : "");
 
   const headers: Record<string, string> = {};

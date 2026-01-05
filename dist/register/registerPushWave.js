@@ -7,6 +7,8 @@ const pwLogger_1 = require("../utils/pwLogger");
 const apiKeyCheck_1 = require("../utils/apiKeyCheck");
 const index_1 = require("../attestation/index");
 const fetch_1 = require("../utils/fetch");
+const installationId_1 = require("../utils/installationId");
+const collectDeviceMetaData_1 = require("../utils/collectDeviceMetaData");
 async function registerPushWave({ apiKey }) {
     const OS = react_native_1.Platform.OS;
     if ((0, apiKeyCheck_1.isSecretKey)(apiKey)) {
@@ -26,12 +28,22 @@ async function registerPushWave({ apiKey }) {
     if (appAttestation.status === "disabled")
         pwLogger_1.PWLogger.warn(`(${react_native_1.Platform.OS}) could not get attestation: ${appAttestation.reason}`);
     const path = "expo-tokens";
+    const installationId = await (0, installationId_1.getInstallationId)();
+    const { appVersion, buildNumber, countryCode, deviceModel, locale, osVersion, timezone } = (0, collectDeviceMetaData_1.collectDeviceMetaData)();
     const options = {
         apiKey: apiKey,
         expoToken: expoToken,
         platform: OS,
         appAttestation: appAttestation,
-        environment: __DEV__ ? "development" : "production"
+        environment: __DEV__ ? "development" : "production",
+        installationId,
+        appVersion,
+        buildNumber,
+        countryCode,
+        deviceModel,
+        locale,
+        osVersion,
+        timezone
     };
     try {
         const res = await (0, fetch_1.fetchApi)("PUT", path, { data: options });

@@ -5,6 +5,8 @@ import { isSecretKey } from "../utils/apiKeyCheck";
 import { RegisterPushWaveClient, RegisterPushWaveDTO, RegisterPushWaveResponse } from "./registerPushWave.dto";
 import { getApplicationAttestation } from "../attestation/index";
 import { fetchApi } from "../utils/fetch";
+import { getInstallationId } from "../utils/installationId";
+import { collectDeviceMetaData } from "../utils/collectDeviceMetaData";
 
 export async function registerPushWave(
     { apiKey }: RegisterPushWaveClient
@@ -37,12 +39,24 @@ export async function registerPushWave(
 
     const path = "expo-tokens"
 
+    const installationId = await getInstallationId();
+
+    const { appVersion, buildNumber, countryCode, deviceModel, locale, osVersion, timezone } = collectDeviceMetaData();
+
     const options: RegisterPushWaveDTO = {
         apiKey: apiKey,
         expoToken: expoToken,
         platform: OS,
         appAttestation: appAttestation,
-        environment: __DEV__ ? "development" : "production"
+        environment: __DEV__ ? "development" : "production",
+        installationId,
+        appVersion,
+        buildNumber,
+        countryCode,
+        deviceModel,
+        locale,
+        osVersion,
+        timezone
     }
 
     try {
