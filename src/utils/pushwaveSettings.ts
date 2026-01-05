@@ -1,5 +1,5 @@
 import { Platform } from "react-native";
-import { fetchApiGet } from "./fetch";
+import { fetchApi } from "./fetch";
 import { PWLogger } from "./pwLogger";
 
 export type PushwaveSettings = {
@@ -9,7 +9,7 @@ export type PushwaveSettings = {
 
 const pushwaveSettingsPromise: Promise<PushwaveSettings> = (async () => {
     try {
-        return await fetchApiGet("pushwave-config", { platform: Platform.OS });
+        return await fetchApi("GET", "pushwave-config", { params: { platform: Platform.OS } });
     } catch (e) {
         // log si besoin
         PWLogger.warn(`Unable to load PushWave configuration: ${e}`)

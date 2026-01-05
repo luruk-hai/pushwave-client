@@ -1,33 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchApiPost = fetchApiPost;
-exports.fetchApiGet = fetchApiGet;
+exports.fetchApi = fetchApi;
 const BASE_URL = "https://api.pushwave.dev/v1/public/";
-async function fetchApiPost(path, data = {}) {
-    const url = BASE_URL + path;
-    const res = await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    });
-    const text = await res.text();
-    let json = null;
-    try {
-        json = text ? JSON.parse(text) : null;
-    }
-    catch (err) {
-        // JSON empty/invalid
-    }
-    if (!res.ok) {
-        const apiError = (json?.error ?? json?.message ?? "");
-        const message = `(${res.status}) ${apiError}`.trim();
-        throw new Error(message);
-    }
-    return json;
-}
-async function fetchApiGet(path, params) {
+async function fetchApi(method, path, { params, data } = {}) {
     const search = params
         ? new URLSearchParams(Object.entries(params).reduce((acc, [key, value]) => {
             if (value === undefined)
@@ -36,8 +11,18 @@ async function fetchApiGet(path, params) {
             return acc;
         }, {})).toString()
         : "";
+    console.log("Go fetch !");
     const url = BASE_URL + path + (search ? `?${search}` : "");
-    const res = await fetch(url);
+    const headers = {};
+    const body = data !== undefined && method !== "GET" ? JSON.stringify(data) : undefined;
+    if (body) {
+        headers["Content-Type"] = "application/json";
+    }
+    const res = await fetch(url, {
+        method,
+        headers,
+        body,
+    });
     const text = await res.text();
     let json = null;
     try {

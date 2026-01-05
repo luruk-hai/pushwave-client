@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.registerPushWave = registerPushWave;
-const fetch_1 = require("../utils/fetch");
 const expoToken_1 = require("../utils/expoToken");
 const react_native_1 = require("react-native");
 const pwLogger_1 = require("../utils/pwLogger");
 const apiKeyCheck_1 = require("../utils/apiKeyCheck");
 const index_1 = require("../attestation/index");
+const fetch_1 = require("../utils/fetch");
 async function registerPushWave({ apiKey }) {
     const OS = react_native_1.Platform.OS;
     if ((0, apiKeyCheck_1.isSecretKey)(apiKey)) {
@@ -34,7 +34,7 @@ async function registerPushWave({ apiKey }) {
         environment: __DEV__ ? "development" : "production"
     };
     try {
-        const res = await (0, fetch_1.fetchApiPost)(path, options);
+        const res = await (0, fetch_1.fetchApi)("PUT", path, { data: options });
         return {
             success: true,
             message: res.message,

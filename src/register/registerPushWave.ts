@@ -1,10 +1,10 @@
-import { fetchApiPost } from "../utils/fetch";
 import { getExpoToken } from "../utils/expoToken";
 import { Platform } from "react-native";
 import { PWLogger } from "../utils/pwLogger";
 import { isSecretKey } from "../utils/apiKeyCheck";
 import { RegisterPushWaveClient, RegisterPushWaveDTO, RegisterPushWaveResponse } from "./registerPushWave.dto";
 import { getApplicationAttestation } from "../attestation/index";
+import { fetchApi } from "../utils/fetch";
 
 export async function registerPushWave(
     { apiKey }: RegisterPushWaveClient
@@ -46,7 +46,7 @@ export async function registerPushWave(
     }
 
     try {
-        const res: RegisterPushWaveResponse = await fetchApiPost(path, options)
+        const res: RegisterPushWaveResponse = await fetchApi("PUT", path, { data: options })
 
         return {
             success: true,
