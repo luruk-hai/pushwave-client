@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getInstallationId = void 0;
+const loadSecureStore_1 = require("./loadSecureStore");
 const pwLogger_1 = require("./pwLogger");
 const STORAGE_KEY = "pushwave-installation-id";
 let cachedId = null;
@@ -28,18 +29,10 @@ const generateId = () => {
         hex.slice(20)
     ].join("-");
 };
-const loadSecureStore = () => {
-    try {
-        return require("expo-secure-store");
-    }
-    catch (err) {
-        return null;
-    }
-};
 const getInstallationId = async () => {
     if (cachedId)
         return cachedId;
-    const SecureStore = loadSecureStore();
+    const SecureStore = (0, loadSecureStore_1.loadSecureStore)();
     if (SecureStore) {
         try {
             const existing = await SecureStore.getItemAsync(STORAGE_KEY);

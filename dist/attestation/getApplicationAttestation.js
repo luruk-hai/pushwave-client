@@ -4,7 +4,7 @@ exports.getApplicationAttestation = getApplicationAttestation;
 const buffer_1 = require("buffer");
 const react_native_1 = require("react-native");
 const native_1 = require("./native");
-async function getApplicationAttestation(apiKey) {
+async function getApplicationAttestation() {
     const { nonce, timestamp } = createNonce();
     try {
         if (react_native_1.Platform.OS === "android")

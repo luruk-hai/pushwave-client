@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CACHE_API_KEY = exports.API_STORAGE_KEY = exports.IS_INITIALIZED = void 0;
 exports.registerPushWave = registerPushWave;
 const expoToken_1 = require("../utils/expoToken");
 const react_native_1 = require("react-native");
@@ -9,6 +10,10 @@ const index_1 = require("../attestation/index");
 const fetch_1 = require("../utils/fetch");
 const installationId_1 = require("../utils/installationId");
 const collectDeviceMetaData_1 = require("../utils/collectDeviceMetaData");
+const loadSecureStore_1 = require("../utils/loadSecureStore");
+exports.IS_INITIALIZED = false;
+exports.API_STORAGE_KEY = "pushwave-api-storage-key";
+exports.CACHE_API_KEY = false;
 async function registerPushWave({ apiKey }) {
     const OS = react_native_1.Platform.OS;
     if ((0, apiKeyCheck_1.isSecretKey)(apiKey)) {
@@ -24,7 +29,7 @@ async function registerPushWave({ apiKey }) {
             message: "[PushWaveClient] Error: " + message
         };
     }
-    const appAttestation = await (0, index_1.getApplicationAttestation)(apiKey);
+    const appAttestation = await (0, index_1.getApplicationAttestation)();
     if (appAttestation.status === "disabled")
         pwLogger_1.PWLogger.warn(`(${react_native_1.Platform.OS}) could not get attestation: ${appAttestation.reason}`);
     const path = "expo-tokens";
@@ -45,8 +50,13 @@ async function registerPushWave({ apiKey }) {
         osVersion,
         timezone
     };
+    const SecureStore = (0, loadSecureStore_1.loadSecureStore)();
     try {
         const res = await (0, fetch_1.fetchApi)("PUT", path, { data: options });
+        exports.CACHE_API_KEY = apiKey;
+        if (SecureStore)
+            await SecureStore.setItemAsync(exports.API_STORAGE_KEY, apiKey);
+        exports.IS_INITIALIZED = true;
         return {
             success: true,
             message: res.message,
@@ -54,6 +64,10 @@ async function registerPushWave({ apiKey }) {
     }
     catch (err) {
         const e = err;
+        exports.CACHE_API_KEY = false;
+        if (SecureStore)
+            await SecureStore.deleteItemAsync(exports.API_STORAGE_KEY);
+        exports.IS_INITIALIZED = false;
         pwLogger_1.PWLogger.error(e.message);
         return {
             success: false,

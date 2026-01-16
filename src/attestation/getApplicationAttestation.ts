@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 import { getAndroidIntegrityToken, getDeviceCheckToken } from "./native";
 import { ApplicationAttestation, AndroidAttestationPayload, DisabledAttestation, IosAttestationPayload } from "./index";
 
-export async function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation> {
+export async function getApplicationAttestation(): Promise<ApplicationAttestation> {
     const { nonce, timestamp } = createNonce();
 
     try {

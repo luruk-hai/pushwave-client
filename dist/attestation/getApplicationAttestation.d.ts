@@ -1,2 +1,2 @@
 import { ApplicationAttestation } from "./index";
-export declare function getApplicationAttestation(apiKey: string): Promise<ApplicationAttestation>;
+export declare function getApplicationAttestation(): Promise<ApplicationAttestation>;

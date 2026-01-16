@@ -1,14 +1,10 @@
+import { loadSecureStore } from "./loadSecureStore";
 import { PWLogger } from "./pwLogger";
 
 const STORAGE_KEY = "pushwave-installation-id";
 
 let cachedId: string | null = null;
 let warnedMissingSecureStore = false;
-
-type SecureStoreModule = {
-    getItemAsync(key: string): Promise<string | null>;
-    setItemAsync(key: string, value: string): Promise<void>;
-};
 
 const generateId = (): string => {
     if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
@@ -33,14 +29,6 @@ const generateId = (): string => {
         hex.slice(16, 20),
         hex.slice(20)
     ].join("-");
-};
-
-const loadSecureStore = (): SecureStoreModule | null => {
-    try {
-        return require("expo-secure-store") as SecureStoreModule;
-    } catch (err) {
-        return null;
-    }
 };
 
 export const getInstallationId = async (): Promise<string> => {

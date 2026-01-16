@@ -7,6 +7,12 @@ import { getApplicationAttestation } from "../attestation/index";
 import { fetchApi } from "../utils/fetch";
 import { getInstallationId } from "../utils/installationId";
 import { collectDeviceMetaData } from "../utils/collectDeviceMetaData";
+import { loadSecureStore } from "../utils/loadSecureStore";
+
+export var IS_INITIALIZED: boolean = false;
+
+export const API_STORAGE_KEY = "pushwave-api-storage-key";
+export var CACHE_API_KEY: string | false = false;
 
 export async function registerPushWave(
     { apiKey }: RegisterPushWaveClient
@@ -32,7 +38,7 @@ export async function registerPushWave(
         }
     }
 
-    const appAttestation = await getApplicationAttestation(apiKey);
+    const appAttestation = await getApplicationAttestation();
 
     if (appAttestation.status === "disabled")
         PWLogger.warn(`(${Platform.OS}) could not get attestation: ${appAttestation.reason}`);
@@ -59,8 +65,15 @@ export async function registerPushWave(
         timezone
     }
 
+    const SecureStore = loadSecureStore();
+
     try {
         const res: RegisterPushWaveResponse = await fetchApi("PUT", path, { data: options })
+
+        CACHE_API_KEY = apiKey;
+        if (SecureStore) await SecureStore.setItemAsync(API_STORAGE_KEY, apiKey);
+
+        IS_INITIALIZED = true;
 
         return {
             success: true,
@@ -68,6 +81,11 @@ export async function registerPushWave(
         };
     } catch (err) {
         const e = err as Error;
+
+        CACHE_API_KEY = false;
+        if (SecureStore) await SecureStore.deleteItemAsync(API_STORAGE_KEY);
+
+        IS_INITIALIZED = false;
 
         PWLogger.error(e.message);
 
