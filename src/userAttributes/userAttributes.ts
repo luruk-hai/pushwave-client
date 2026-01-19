@@ -1,14 +1,14 @@
 import { Platform } from "react-native";
 import { getApplicationAttestation } from "../attestation";
 import { IS_INITIALIZED } from "../register";
+import { getApiKey } from "../utils/getApiKey";
 import { getInstallationId } from "../utils/installationId";
 import { PWLogger } from "../utils/pwLogger";
-import { LogoutDTO, LogoutResponse } from "./logout.dto";
+import { SetUserAttributes, SetUserAttributesDTO, SetUserAttributesResponse } from "./userAttributes.dto";
 import { fetchApi } from "../utils/fetch";
-import { getApiKey } from "../utils/getApiKey";
 
-export async function logout(): Promise<LogoutResponse> {
-    const response: LogoutResponse = { success: false }
+export async function setUserAttributes(attributes: SetUserAttributes): Promise<SetUserAttributesResponse> {
+    const response: SetUserAttributesResponse = { success: false }
 
     if (!IS_INITIALIZED) {
 
@@ -22,26 +22,28 @@ export async function logout(): Promise<LogoutResponse> {
     try {
         apiKey = await getApiKey();
     } catch (e) {
-        PWLogger.warn("[PushWave.logout]", e);
+        PWLogger.warn("[PushWave.setUserAttributes]", e);
         return response;
     }
 
     const installationId = await getInstallationId();
     const appAttestation = await getApplicationAttestation();
 
-    const data: LogoutDTO = {
+    const data: SetUserAttributesDTO = {
         apiKey,
         installationId,
         appAttestation,
         environment: __DEV__ ? "development" : "production",
-        platform: Platform.OS
+        platform: Platform.OS,
+        attributes
     }
 
     try {
-        const res: LogoutResponse = await fetchApi("POST", "app-installations/logout", { data })
+        const res: SetUserAttributesResponse = await fetchApi("PATCH", "app-users/attributes", { data })
         return {
             success: true,
             message: res.message,
+            mismatches: res.mismatches
         };
     } catch (err) {
         const e = err as Error;

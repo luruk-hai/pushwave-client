@@ -24,7 +24,7 @@ export async function identify({ userId }: IdentifyOptions): Promise<IdentifyRes
     try {
         apiKey = await getApiKey();
     } catch (e) {
-        PWLogger.warn("[IDENTIFY]", e);
+        PWLogger.warn("[PushWave.identify]", e);
         return response;
     }
 

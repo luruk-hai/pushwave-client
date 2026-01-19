@@ -1,17 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.identify = identify;
+exports.setUserAttributes = setUserAttributes;
 const react_native_1 = require("react-native");
 const attestation_1 = require("../attestation");
 const register_1 = require("../register");
-const fetch_1 = require("../utils/fetch");
-const pwLogger_1 = require("../utils/pwLogger");
-const installationId_1 = require("../utils/installationId");
 const getApiKey_1 = require("../utils/getApiKey");
-async function identify({ userId }) {
+const installationId_1 = require("../utils/installationId");
+const pwLogger_1 = require("../utils/pwLogger");
+const fetch_1 = require("../utils/fetch");
+async function setUserAttributes(attributes) {
     const response = { success: false };
     if (!register_1.IS_INITIALIZED) {
-        pwLogger_1.PWLogger.warn("PushWaveClient.init({ apiKey }) must be called before PushWaveClient.identify");
+        pwLogger_1.PWLogger.warn("PushWaveClient.init({ apiKey }) must be called before PushWaveClient.logout");
         return response;
     }
     let apiKey;
@@ -19,24 +19,25 @@ async function identify({ userId }) {
         apiKey = await (0, getApiKey_1.getApiKey)();
     }
     catch (e) {
-        pwLogger_1.PWLogger.warn("[PushWave.identify]", e);
+        pwLogger_1.PWLogger.warn("[PushWave.setUserAttributes]", e);
         return response;
     }
     const installationId = await (0, installationId_1.getInstallationId)();
     const appAttestation = await (0, attestation_1.getApplicationAttestation)();
     const data = {
         apiKey,
-        userId,
         installationId,
         appAttestation,
         environment: __DEV__ ? "development" : "production",
-        platform: react_native_1.Platform.OS
+        platform: react_native_1.Platform.OS,
+        attributes
     };
     try {
-        const res = await (0, fetch_1.fetchApi)("PUT", "app-users", { data });
+        const res = await (0, fetch_1.fetchApi)("PATCH", "app-users/attributes", { data });
         return {
             success: true,
             message: res.message,
+            mismatches: res.mismatches
         };
     }
     catch (err) {

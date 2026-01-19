@@ -19,7 +19,7 @@ async function logout() {
         apiKey = await (0, getApiKey_1.getApiKey)();
     }
     catch (e) {
-        pwLogger_1.PWLogger.warn("[LOGOUT]", e);
+        pwLogger_1.PWLogger.warn("[PushWave.logout]", e);
         return response;
     }
     const installationId = await (0, installationId_1.getInstallationId)();
