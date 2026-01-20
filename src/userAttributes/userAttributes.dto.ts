@@ -3,6 +3,7 @@ export type AttributeValue =
     | number
     | boolean
     | Date
+    | null
 
 export type SetUserAttributes = Record<string, AttributeValue>
 

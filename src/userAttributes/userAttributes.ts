@@ -39,7 +39,7 @@ export async function setUserAttributes(attributes: SetUserAttributes): Promise<
     }
 
     try {
-        const res: SetUserAttributesResponse = await fetchApi("PATCH", "app-users/attributes", { data })
+        const res: SetUserAttributesResponse = await fetchApi("PATCH", "app-users/me/attributes", { data })
         return {
             success: true,
             message: res.message,

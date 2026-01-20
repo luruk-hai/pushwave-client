@@ -1,4 +1,4 @@
-export type AttributeValue = string | number | boolean | Date;
+export type AttributeValue = string | number | boolean | Date | null;
 export type SetUserAttributes = Record<string, AttributeValue>;
 export type SetUserAttributesResponse = {
     success: boolean;

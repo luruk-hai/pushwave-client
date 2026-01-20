@@ -33,7 +33,7 @@ async function setUserAttributes(attributes) {
         attributes
     };
     try {
-        const res = await (0, fetch_1.fetchApi)("PATCH", "app-users/attributes", { data });
+        const res = await (0, fetch_1.fetchApi)("PATCH", "app-users/me/attributes", { data });
         return {
             success: true,
             message: res.message,
