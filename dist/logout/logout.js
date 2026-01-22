@@ -8,6 +8,9 @@ const installationId_1 = require("../utils/installationId");
 const pwLogger_1 = require("../utils/pwLogger");
 const fetch_1 = require("../utils/fetch");
 const getApiKey_1 = require("../utils/getApiKey");
+/**
+ * Unregister the current installation (e.g., on user logout). Requires a successful init.
+ */
 async function logout() {
     const response = { success: false };
     if (!register_1.IS_INITIALIZED) {

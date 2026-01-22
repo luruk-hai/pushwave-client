@@ -14,6 +14,11 @@ const loadSecureStore_1 = require("../utils/loadSecureStore");
 exports.IS_INITIALIZED = false;
 exports.API_STORAGE_KEY = "pushwave-api-storage-key";
 exports.CACHE_API_KEY = false;
+/**
+ * Initialize PushWave for this installation: retrieves the Expo push token, collects
+ * attestation + device metadata, persists the API key when SecureStore is available,
+ * and caches initialization state for subsequent calls.
+ */
 async function registerPushWave({ apiKey }) {
     const OS = react_native_1.Platform.OS;
     if ((0, apiKeyCheck_1.isSecretKey)(apiKey)) {

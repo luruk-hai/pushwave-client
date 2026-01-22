@@ -9,6 +9,9 @@ const getApiKey_1 = require("../utils/getApiKey");
 const installationId_1 = require("../utils/installationId");
 const pwLogger_1 = require("../utils/pwLogger");
 const fetch_1 = require("../utils/fetch");
+/**
+ * Set custom attributes for the current user/installation. Requires a successful init.
+ */
 async function setUserAttributes(attributes) {
     const response = { success: false };
     if (!register_1.IS_INITIALIZED) {
@@ -50,6 +53,9 @@ async function setUserAttributes(attributes) {
         };
     }
 }
+/**
+ * Retrieve attributes for the current user/installation. Requires a successful init.
+ */
 async function getUserAttributes() {
     if (!register_1.IS_INITIALIZED) {
         const msg = `PushWaveClient.init({ apiKey }) must be called before PushWaveClient.getUserAttributes`;

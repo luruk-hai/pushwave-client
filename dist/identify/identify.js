@@ -8,6 +8,9 @@ const fetch_1 = require("../utils/fetch");
 const pwLogger_1 = require("../utils/pwLogger");
 const installationId_1 = require("../utils/installationId");
 const getApiKey_1 = require("../utils/getApiKey");
+/**
+ * Link a userId to the current installation. Requires a successful registerPushWave/init call.
+ */
 async function identify({ userId }) {
     const response = { success: false };
     if (!register_1.IS_INITIALIZED) {
