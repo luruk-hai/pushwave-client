@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setUserAttributes = setUserAttributes;
+exports.getUserAttributes = getUserAttributes;
 const react_native_1 = require("react-native");
 const attestation_1 = require("../attestation");
 const register_1 = require("../register");
@@ -11,7 +12,7 @@ const fetch_1 = require("../utils/fetch");
 async function setUserAttributes(attributes) {
     const response = { success: false };
     if (!register_1.IS_INITIALIZED) {
-        pwLogger_1.PWLogger.warn("PushWaveClient.init({ apiKey }) must be called before PushWaveClient.logout");
+        pwLogger_1.PWLogger.warn("PushWaveClient.init({ apiKey }) must be called before PushWaveClient.setUserAttributes");
         return response;
     }
     let apiKey;
@@ -47,5 +48,40 @@ async function setUserAttributes(attributes) {
             success: false,
             message: e.message,
         };
+    }
+}
+async function getUserAttributes() {
+    if (!register_1.IS_INITIALIZED) {
+        const msg = `PushWaveClient.init({ apiKey }) must be called before PushWaveClient.getUserAttributes`;
+        pwLogger_1.PWLogger.warn(msg);
+        throw new Error(msg);
+    }
+    let apiKey;
+    try {
+        apiKey = await (0, getApiKey_1.getApiKey)();
+    }
+    catch (e) {
+        const msg = `[PushWave.getUserAttributes] ${e}`;
+        pwLogger_1.PWLogger.warn(msg);
+        throw new Error(msg);
+    }
+    const installationId = await (0, installationId_1.getInstallationId)();
+    const appAttestation = await (0, attestation_1.getApplicationAttestation)();
+    const data = {
+        apiKey,
+        installationId,
+        appAttestation,
+        environment: __DEV__ ? "development" : "production",
+        platform: react_native_1.Platform.OS
+    };
+    try {
+        const res = await (0, fetch_1.fetchApi)("POST", "app-users/me/attributes", { data });
+        return res.attributes ?? {};
+    }
+    catch (err) {
+        const e = err;
+        const msg = e.message;
+        pwLogger_1.PWLogger.error(msg);
+        throw new Error(msg);
     }
 }

@@ -21,3 +21,15 @@ export type SetUserAttributesDTO = {
     environment: "development" | "production",
     attributes: SetUserAttributes
 }
+
+export type GetUserAttributes = Record<string, AttributeValue>
+
+export type GetUserAttributesResponse = GetUserAttributes;
+
+export type GetUserAttributesDTO = {
+    apiKey: string;
+    installationId: string;
+    platform: string;
+    appAttestation?: any;
+    environment: "development" | "production";
+}

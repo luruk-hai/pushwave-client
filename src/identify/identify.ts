@@ -8,6 +8,9 @@ import { IdentifyDTO, IdentifyOptions, IdentifyResponse } from "./identify.dto";
 import { getInstallationId } from "../utils/installationId";
 import { getApiKey } from "../utils/getApiKey";
 
+/**
+ * Link a userId to the current installation. Requires a successful registerPushWave/init call.
+ */
 export async function identify({ userId }: IdentifyOptions): Promise<IdentifyResponse> {
 
     const response: IdentifyResponse = { success: false }

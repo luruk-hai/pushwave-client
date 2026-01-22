@@ -76,6 +76,20 @@ export default function App() {
 - Call it **once** at app startup (e.g., in `App.tsx` or a root component `useEffect`). Recalling it later is unnecessary.
 - In `__DEV__`, the SDK may log additional info/errors (e.g., failed API calls) to help debugging.
 
+### API surface
+
+- `PushWaveClient.init({ apiKey })` → registers the installation (Expo token + attestation + device metadata). Persists the API key when SecureStore is available. Must be called first. Returns `{ success, message? }`.
+- `PushWaveClient.identify({ userId })` → links a userId to the installation. Requires a successful `init`. Returns `{ success, message? }`.
+- `PushWaveClient.setUserAttributes(attributes)` → sets custom attributes (string | number | boolean | Date | null). Requires `init`. Returns `{ success, message?, mismatches? }`.
+- `PushWaveClient.getUserAttributes()` → fetches attributes for the current installation/user. Requires `init`. Returns `Record<string, AttributeValue>` or throws on error.
+- `PushWaveClient.logout()` → unregisters the installation (e.g., on sign-out). Requires `init`. Returns `{ success, message? }`.
+
+Tip: In production builds, ensure `PUSHWAVE_API_KEY` (or your chosen env) is injected via EAS secrets or `env` in `eas.json`, so `init` can read it at runtime.
+
+Common pitfalls:
+- Calling `identify`/`setUserAttributes`/`getUserAttributes`/`logout` before `init` has succeeded → initialize first.
+- Optional peers: install `expo-secure-store` for persistent installationId and `expo-application`/`expo-device`/`expo-localization` for richer metadata if you need those fields.
+
 ---
 
 ## Dashboard

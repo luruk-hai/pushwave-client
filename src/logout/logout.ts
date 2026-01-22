@@ -7,6 +7,9 @@ import { LogoutDTO, LogoutResponse } from "./logout.dto";
 import { fetchApi } from "../utils/fetch";
 import { getApiKey } from "../utils/getApiKey";
 
+/**
+ * Unregister the current installation (e.g., on user logout). Requires a successful init.
+ */
 export async function logout(): Promise<LogoutResponse> {
     const response: LogoutResponse = { success: false }
 

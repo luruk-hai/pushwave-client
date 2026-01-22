@@ -16,6 +16,9 @@ const PushWaveClient = {
     },
     setUserAttributes(options) {
         return (0, userAttributes_1.setUserAttributes)(options);
-    }
+    },
+    getUserAttributes() {
+        return (0, userAttributes_1.getUserAttributes)();
+    },
 };
 exports.default = PushWaveClient;
