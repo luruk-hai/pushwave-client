@@ -1,6 +1,6 @@
 {
   "name": "pushwave-client",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "PushWave Client, Expo Push Notifications SaaS SDK",
   "homepage": "https://github.com/luruk-hai/pushwave-client#readme",
   "bugs": {
