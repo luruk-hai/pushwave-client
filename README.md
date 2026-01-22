@@ -78,11 +78,13 @@ export default function App() {
 
 ### API surface
 
-- `PushWaveClient.init({ apiKey })` → registers the installation (Expo token + attestation + device metadata). Persists the API key when SecureStore is available. Must be called first. Returns `{ success, message? }`.
-- `PushWaveClient.identify({ userId })` → links a userId to the installation. Requires a successful `init`. Returns `{ success, message? }`.
-- `PushWaveClient.setUserAttributes(attributes)` → sets custom attributes (string | number | boolean | Date | null). Requires `init`. Returns `{ success, message?, mismatches? }`.
-- `PushWaveClient.getUserAttributes()` → fetches attributes for the current installation/user. Requires `init`. Returns `Record<string, AttributeValue>` or throws on error.
-- `PushWaveClient.logout()` → unregisters the installation (e.g., on sign-out). Requires `init`. Returns `{ success, message? }`.
+| Method | Description | Return |
+| --- | --- | --- |
+| `init({ apiKey })` | Registers the installation (Expo token + attestation + device metadata). Persists the API key when SecureStore is available. Must be called first. | `{ success, message? }` |
+| `identify({ userId })` | Links a `userId` to the installation. Requires `init`. | `{ success, message? }` |
+| `setUserAttributes(attributes)` | Sets custom attributes (string \| number \| boolean \| Date \| null). Requires `init`. | `{ success, message?, mismatches? }` |
+| `getUserAttributes()` | Fetches attributes for the current installation/user. Requires `init`. | `Record<string, AttributeValue>` (throws on error) |
+| `logout()` | Unregisters the installation (e.g., on sign-out). Requires `init`. | `{ success, message? }` |
 
 Tip: In production builds, ensure `PUSHWAVE_API_KEY` (or your chosen env) is injected via EAS secrets or `env` in `eas.json`, so `init` can read it at runtime.
 
